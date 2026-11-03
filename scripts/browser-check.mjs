@@ -179,6 +179,20 @@ try {
     await page.waitForTimeout(1000);
     await page.screenshot({ path: `artifacts/${label}-mobile.png`, fullPage: true });
   });
+  await check('Small-phone layout keeps room, catalog and named save controls inside the viewport', async () => {
+    await page.setViewportSize({ width: 320, height: 844 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    const save = page.getByRole('button', { name: 'Save room', exact: true });
+    const bounds = await save.boundingBox();
+    assert.ok(bounds && bounds.x >= 0 && bounds.x + bounds.width <= 320);
+    await save.click();
+    await page.getByRole('status').filter({ hasText: /Room saved/ }).waitFor();
+    await page.getByLabel('Search furniture', { exact: true }).fill('desk');
+    await page.getByRole('button', { name: 'Add Everyday desk', exact: true }).click();
+    await waitForLayout(() => JSON.parse(localStorage.getItem('room-remix-layout-v1')).items.some(item => item.kind === 'desk'));
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    await page.screenshot({ path: `artifacts/${label}-small-phone.png`, fullPage: true });
+  });
   await check('No browser console or runtime errors during the full interaction suite', async () => assert.deepEqual(errors, []));
   const report = { url, checkedAt: new Date().toISOString(), checks, errors, passed: true };
   await writeFile(`artifacts/${label}-browser-results.json`, JSON.stringify(report, null, 2));

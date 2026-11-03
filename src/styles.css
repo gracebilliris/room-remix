@@ -12,7 +12,7 @@
   --line: #e8e9df;
 }
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 360px; }
+body { margin: 0; min-width: 320px; }
 button, input { font: inherit; }
 button { cursor: pointer; color: inherit; }
 button, a, input { -webkit-tap-highlight-color: transparent; }
@@ -349,6 +349,15 @@ h3 { font-size: 11px; font-weight: 550; letter-spacing: -.1px; }
   .app-dialog { padding: 28px 22px 24px; }
   .app-dialog h2 { font-size: 25px; }
   .dialog-actions .button { font-size: 11px; padding: 11px 13px; }
+}
+@media (max-width: 359px) {
+  .site-header { padding: 0 14px; }
+  .header-actions { gap: 4px; }
+  .save-button { width: 44px; height: 44px; padding: 0; }
+  .save-button span { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .search-field { position: static; width: 100%; margin: 0 0 14px; }
+  .preset-menu { max-width: calc(100vw - 56px); }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
